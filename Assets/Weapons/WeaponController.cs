@@ -14,7 +14,7 @@ public class WeaponController : MonoBehaviour
 
 
     float timeStamp;
-    float fireRate = 5;
+    float fireRate = 10;
     float lastFired;
 
     void Update()
