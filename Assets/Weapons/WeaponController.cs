@@ -4,19 +4,23 @@ using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
+    const float force = 20f;
+
     [SerializeField] Transform firePoint;
     [SerializeField] Transform firePoint2;
 
     [SerializeField] GameObject bullet;
     [SerializeField] GameObject bullet2;
 
-    const float force = 20f;
+
     float timeStamp;
+    float fireRate = 5;
+    float lastFired;
 
     void Update()
     {
 
-        if (Input.GetButtonDown("Fire1")) // on clicking the LMB
+        if (Input.GetButton("Fire1")) // on clicking the LMB
         {
             shoot(); // shoot a bullet
         }  
@@ -32,9 +36,13 @@ public class WeaponController : MonoBehaviour
     }                       
     void shoot()
     {
-        GameObject bulletInstance = Instantiate(bullet, firePoint.position, firePoint.rotation); // creates an instance of a bullet object
-        Rigidbody2D rb = bulletInstance.GetComponent<Rigidbody2D>(); // get rigidbody of new bullet
-        rb.AddForce(firePoint.right * force, ForceMode2D.Impulse); // apply a force to it
+        if (Time.time - lastFired > 1 / fireRate)
+        {
+            lastFired = Time.time;
+             GameObject bulletInstance = Instantiate(bullet, firePoint.position, firePoint.rotation); // creates an instance of a bullet object
+            Rigidbody2D rb = bulletInstance.GetComponent<Rigidbody2D>(); // get rigidbody of new bullet
+            rb.AddForce(firePoint.right * force, ForceMode2D.Impulse); // apply a force to it
+        }
     }
     void shoot2() // same as the function above, but a different firePoint is used
     {
