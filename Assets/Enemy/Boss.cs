@@ -15,7 +15,7 @@ public class Boss : MonoBehaviour
     {          
         bodyParts = enemy.GetComponentsInChildren<SpriteRenderer>();
         animator.SetTrigger("isIncrease");
-        InvokeRepeating("spawnBoss", 5, 5);
+        InvokeRepeating("spawnBoss", 5, 6);
         level++;   
     }
     void spawnBoss()

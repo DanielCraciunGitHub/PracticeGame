@@ -8,7 +8,7 @@ public class playerCollision : MonoBehaviour
 {
     [SerializeField] Slider healthBar;
     float curHealth;
-    float maxHealth = 100;
+    float maxHealth = 140;
 
     PlayerController player;
     public static int score;
