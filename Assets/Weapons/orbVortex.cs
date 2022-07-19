@@ -21,12 +21,12 @@ public class orbVortex : MonoBehaviour
     {
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, radius);
 
-        foreach (var collider in hitColliders)
+        foreach (var collider in hitColliders) // check for each object
         {
             if (collider.gameObject.tag == "enemy")
             {
 
-                lr.SetPosition(0, transform.position);
+                lr.SetPosition(0, transform.position); // render the line
                 lr.SetPosition(1, collider.transform.position);
 
                 Destroy(collider.gameObject);

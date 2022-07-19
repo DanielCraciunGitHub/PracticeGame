@@ -12,7 +12,8 @@ public class MenuController : MonoBehaviour
     }
     public void onClickPlay()
     {
-        // loads the game
+        // loads the game and sets inital speed
+        EnemyController.speed = 1.0f;
         SceneManager.LoadScene("Game");
     }
 
