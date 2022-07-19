@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class WeaponController : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class WeaponController : MonoBehaviour
     [SerializeField] GameObject bullet;
     [SerializeField] GameObject bullet2;
 
+    [SerializeField] TMP_Text text;
 
     float timeStamp;
     float fireRate = 10;
@@ -33,6 +35,7 @@ public class WeaponController : MonoBehaviour
                 timeStamp = Time.time + 10.0f; // wait 10 more seconds (recharge ability)
             }
         }
+
         if (orbTimeStamp < Time.time) // manage time since orb is alive
         {
             var orbs = FindObjectsOfType<orbVortex>();
@@ -40,6 +43,17 @@ public class WeaponController : MonoBehaviour
             {
                 Destroy(orb.gameObject);
             }
+        }
+
+        if (timeStamp >= Time.time)
+        {
+            text.text = $"Orb cooldown: {Mathf.Round(timeStamp - Time.time)} seconds!";
+            text.color = Color.red;
+        }
+        else
+        {
+            text.text = "Ready";
+            text.color = Color.green;
         }
     }                       
     void shoot()
