@@ -8,7 +8,7 @@ public class playerCollision : MonoBehaviour
 {
     [SerializeField] Slider healthBar;
     float curHealth;
-    float maxHealth = 140;
+    float maxHealth = 100;
 
     PlayerController player;
     public static int score;
@@ -36,7 +36,7 @@ public class playerCollision : MonoBehaviour
             }
             else
             {
-                sendDamage(20); // take 1/5 of damage
+                sendDamage(20); // take damage
             }
         }
     }
