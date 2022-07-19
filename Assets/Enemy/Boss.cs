@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using TMPro;
 
@@ -9,14 +10,19 @@ public class Boss : MonoBehaviour
     [SerializeField] SpriteRenderer enemy;
 
     SpriteRenderer[] bodyParts;
-    int level = 1;
 
-    void Start()
+    int level = 1;
+    bool spawnboss = true;
+
+    IEnumerator Start()
     {          
         bodyParts = enemy.GetComponentsInChildren<SpriteRenderer>();
-        animator.SetTrigger("isIncrease");
-        InvokeRepeating("spawnBoss", 5, 6);
-        level++;   
+        while (spawnboss) // as long as the bosses should spawn
+        {
+            yield return new WaitForSeconds(5); // spawn a boss every 5 seconds
+            spawnBoss();
+            animator.SetTrigger("isIncrease"); // play level animation
+        }   
     }
     void spawnBoss()
     {
@@ -46,8 +52,8 @@ public class Boss : MonoBehaviour
             {
                 child.color = Color.red;
             }
-
-            CancelInvoke(); // stop boss spawns
+            EnemySpawner.spawnRate /= 1.5f; 
+            spawnboss = !spawnboss;
         }
     }
 }

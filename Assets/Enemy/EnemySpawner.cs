@@ -4,14 +4,21 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    public static float spawnRate = 0.5f;
     [SerializeField] GameObject enemy; // holds the enemy object, can be respawned etc.
+
     int enemyCount = 0;
-    
-    void Start()
+
+    IEnumerator Start()
     {
-        enemy.SetActive(true); // enables the game object
-        InvokeRepeating("spawnEnemy", 1, 0.5f); // spawns an enemy at a given location after 1 second, repeating every other 2 seconds.
+         while(true)
+         {
+            yield return new WaitForSeconds(spawnRate);
+            enemy.SetActive(true); // enables the game object
+            Instantiate (enemy, spawnLocation(), Quaternion.identity);
+         }
     }
+
     void spawnEnemy()
     {
         if (enemyCount < 24)
@@ -21,6 +28,7 @@ public class EnemySpawner : MonoBehaviour
             enemyCount++;
         }
     }
+
     public static Vector2 spawnLocation() // [-6,5] in the y direction // [-11, 11] in the x direction
     {
         float x = 0.0f;
@@ -48,6 +56,7 @@ public class EnemySpawner : MonoBehaviour
         Vector2 location = new Vector2(x, y); // creates the vector for the current enemy object instantiated
         return location;
     }
+    
     public void decrement()
     {
         enemyCount--;
