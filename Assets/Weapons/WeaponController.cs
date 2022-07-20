@@ -13,7 +13,6 @@ public class WeaponController : MonoBehaviour
     [SerializeField] GameObject bullet;
     [SerializeField] GameObject bullet2;
 
-    [SerializeField] TMP_Text text;
     [SerializeField] TMP_Text orbs;
 
     float timeStamp;
@@ -23,10 +22,6 @@ public class WeaponController : MonoBehaviour
 
     void Update()
     {
-        if (PlayerPrefs.GetInt("orbCount") == 0) // if the user runs out of orbs
-        {
-            text.enabled = false;
-        }
         orbs.text = $"Orbs: x{PlayerPrefs.GetInt("orbCount")}"; // keep updating the orbs of the player
 
         if (Input.GetButton("Fire1"))
@@ -36,11 +31,9 @@ public class WeaponController : MonoBehaviour
 
         if (Input.GetButtonDown("Fire2"))
         {
-            if (timeStamp <= Time.time && PlayerPrefs.GetInt("orbCount") > 0) // if the time passes 10 seconds since last shot with orb and have enough orbs
+            if (PlayerPrefs.GetInt("orbCount") > 0) // if the time passes 10 seconds since last shot with orb and have enough orbs
             {
                 shoot2();
-                timeStamp = Time.time + 10.0f; // wait 10 more seconds (recharge ability)
-
                 int orbs = PlayerPrefs.GetInt("orbCount") - 1;
                 PlayerPrefs.SetInt("orbCount", orbs);
             }
@@ -53,17 +46,6 @@ public class WeaponController : MonoBehaviour
             {
                 Destroy(orb.gameObject);
             }
-        }
-
-        if (timeStamp >= Time.time) // manages orb cooldown text and colour
-        {
-            text.text = $"Orb cooldown: {Mathf.Round(timeStamp - Time.time)} seconds!";
-            text.color = Color.red;
-        }
-        else
-        {
-            text.text = "Ready";
-            text.color = Color.green;
         }
     }                       
     void shoot()
@@ -79,7 +61,7 @@ public class WeaponController : MonoBehaviour
     void shoot2() // same as the function above, but a different firePoint is used
     {
         GameObject bulletInstance = Instantiate(bullet2, firePoint2.position, firePoint2.rotation); // creates an instance of a bullet object
-        orbTimeStamp = Time.time + 3.0f;
+        orbTimeStamp = Time.time + 4.0f; // orb survives for 4 seconds if no collisions
         
         Rigidbody2D rb = bulletInstance.GetComponent<Rigidbody2D>(); // get rigidbody of new bullet
         rb.AddForce(firePoint2.up * (force/4), ForceMode2D.Impulse); // apply a force to it
