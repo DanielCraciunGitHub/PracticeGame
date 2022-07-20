@@ -8,9 +8,10 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] GameObject enemy; // holds the enemy object, can be respawned etc.
 
     int enemyCount = 0;
-
+    
     IEnumerator Start()
     {
+        spawnRate = 0.5f;
          while(true)
          {
             yield return new WaitForSeconds(spawnRate);
@@ -31,7 +32,7 @@ public class EnemySpawner : MonoBehaviour
 
     public static Vector2 spawnLocation() // [-6,5] in the y direction // [-11, 11] in the x direction
     {
-        float x = 0.0f;
+        float x = 0.0f; 
         float y = 0.0f;
         // decides whether to spawn enemy on the left, right, up or down
         switch(Random.Range(0,4))

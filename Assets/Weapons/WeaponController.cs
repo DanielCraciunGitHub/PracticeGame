@@ -14,6 +14,7 @@ public class WeaponController : MonoBehaviour
     [SerializeField] GameObject bullet2;
 
     [SerializeField] TMP_Text text;
+    [SerializeField] TMP_Text orbs;
 
     float timeStamp;
     float fireRate = 10;
@@ -22,30 +23,39 @@ public class WeaponController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButton("Fire1")) // on clicking the LMB
+        if (PlayerPrefs.GetInt("orbCount") == 0) // if the user runs out of orbs
+        {
+            text.enabled = false;
+        }
+        orbs.text = $"Orbs: x{PlayerPrefs.GetInt("orbCount")}"; // keep updating the orbs of the player
+
+        if (Input.GetButton("Fire1"))
         {
             shoot(); // shoot a bullet
         }  
 
         if (Input.GetButtonDown("Fire2"))
         {
-            if (timeStamp <= Time.time) // if the time passes 10 seconds since last shot
+            if (timeStamp <= Time.time && PlayerPrefs.GetInt("orbCount") > 0) // if the time passes 10 seconds since last shot with orb and have enough orbs
             {
                 shoot2();
                 timeStamp = Time.time + 10.0f; // wait 10 more seconds (recharge ability)
+
+                int orbs = PlayerPrefs.GetInt("orbCount") - 1;
+                PlayerPrefs.SetInt("orbCount", orbs);
             }
         }
 
         if (orbTimeStamp < Time.time) // manage time since orb is alive
         {
             var orbs = FindObjectsOfType<orbVortex>();
-            foreach (var orb in orbs)
+            foreach (var orb in orbs) // destroys orb/orbs if time passes
             {
                 Destroy(orb.gameObject);
             }
         }
 
-        if (timeStamp >= Time.time)
+        if (timeStamp >= Time.time) // manages orb cooldown text and colour
         {
             text.text = $"Orb cooldown: {Mathf.Round(timeStamp - Time.time)} seconds!";
             text.color = Color.red;

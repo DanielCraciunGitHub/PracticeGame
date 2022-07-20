@@ -7,7 +7,7 @@ public class EnemyController : MonoBehaviour
     public static float speed = 1.0f;
     [SerializeField] Transform player; // references the players current position
 
-    Vector2 movement; // holds the direction to move in for the current enemy
+    Vector2 movement; // holds the direction to move in for the current enemy!s
     Rigidbody2D rb;
     
     void Start()

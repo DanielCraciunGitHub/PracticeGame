@@ -8,7 +8,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private TMP_Text score; // serialized to allow use of TMP object
     void Start()
     {
-        score.enabled = false; // initially disables the score text
+        score.text = $"Your current high score is: {PlayerPrefs.GetInt("highscore")}"; // displays the current highscore
     }
     public void onClickPlay()
     {
@@ -17,16 +17,8 @@ public class MenuController : MonoBehaviour
         SceneManager.LoadScene("Game");
     }
 
-    public void onClickHighScore()
+    public void onClickShop()
     {
-        // retrieves the current high score from internal storage, and displays it
-        float highScore = PlayerPrefs.GetInt("highscore");
-        displayScore();
-    }
-    private void displayScore()
-    {
-        // displays the text
-        score.enabled = true;
-        score.text = $"Your current high score is: {PlayerPrefs.GetInt("highscore")}";
+        SceneManager.LoadScene("Shop");
     }
 }
