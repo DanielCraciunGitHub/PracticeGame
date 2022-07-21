@@ -5,14 +5,16 @@ using UnityEngine;
 public class orbVortex : MonoBehaviour
 {
     [SerializeField] float radius;
-    
-    LineRenderer lr;
+    [SerializeField] AudioClip electric;
 
+    LineRenderer lr;
     EnemySpawner e;
     PlayerController p;
+    AudioSource a;
 
-    void Start()
+    void Start()    
     {
+        a = GetComponent<AudioSource>();
         lr = GetComponent<LineRenderer>();
         p = GameObject.FindGameObjectWithTag("player").GetComponent<PlayerController>(); // allows for score counting
         e = GameObject.FindGameObjectWithTag("enemyControl").GetComponent<EnemySpawner>(); // includes an object with the EnemySpawner script attached to it
@@ -28,7 +30,8 @@ public class orbVortex : MonoBehaviour
 
                 lr.SetPosition(0, transform.position); // render the line
                 lr.SetPosition(1, collider.transform.position);
-
+                
+                a.PlayOneShot(electric);
                 Destroy(collider.gameObject);
 
                 e.decrement(); // decrements the enemy count

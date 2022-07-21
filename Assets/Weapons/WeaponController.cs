@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.Audio;
 using UnityEngine;
 using TMPro;
 
@@ -15,11 +14,19 @@ public class WeaponController : MonoBehaviour
 
     [SerializeField] TMP_Text orbs;
 
+    [SerializeField] AudioClip bulletSound;
+
+    AudioSource bulletSource;
+    
     float timeStamp;
     float fireRate = 10;
     float lastFired;
     float orbTimeStamp;
 
+    void Start()
+    {
+        bulletSource = GetComponent<AudioSource>();
+    }
     void Update()
     {
         orbs.text = $"Orbs: x{PlayerPrefs.GetInt("orbCount")}"; // keep updating the orbs of the player
@@ -54,6 +61,8 @@ public class WeaponController : MonoBehaviour
         {
             lastFired = Time.time;
             GameObject bulletInstance = Instantiate(bullet, firePoint.position, firePoint.rotation); // creates an instance of a bullet object
+            bulletSource.PlayOneShot(bulletSound); // plays shot audio when bullet is fired 
+
             Rigidbody2D rb = bulletInstance.GetComponent<Rigidbody2D>(); // get rigidbody of new bullet
             rb.AddForce(firePoint.right * force, ForceMode2D.Impulse); // apply a force to it
         }
