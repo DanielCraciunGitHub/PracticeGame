@@ -5,55 +5,57 @@ using TMPro;
 public class Boss : MonoBehaviour
 {
     [SerializeField] GameObject boss;
-    [SerializeField] TMP_Text text;
-    [SerializeField] Animator animator;
-    [SerializeField] SpriteRenderer enemy;
+    [SerializeField] TMP_Text levelChangeText;
+    [SerializeField] Animator animatorForLevelChange;
+    [SerializeField] SpriteRenderer enemySprite;
 
-    SpriteRenderer[] bodyParts;
+    private SpriteRenderer[] bodyParts;
+    private int level = 1;
+    private bool keepSpawnBoss = true;
 
-    int level = 1;
-    bool spawnboss = true;
-
+    void Awake()
+    {
+        bodyParts = enemySprite.GetComponentsInChildren<SpriteRenderer>();
+    }
     IEnumerator Start()
-    {          
-        bodyParts = enemy.GetComponentsInChildren<SpriteRenderer>();
-        while (spawnboss) // as long as the bosses should spawn
+    {
+        while (keepSpawnBoss)
         {
-            yield return new WaitForSeconds(5); // spawn a boss every 5 seconds
+            yield return new WaitForSeconds(5);
             spawnBoss();
-            animator.SetTrigger("isIncrease"); // play level animation
-        }   
+            animatorForLevelChange.SetTrigger("isIncrease");
+        }
     }
     void spawnBoss()
     {
 
-        GameObject b1 = Instantiate(boss, EnemySpawner.spawnLocation(), Quaternion.identity); // spawns the boss game object
+        GameObject b1 = Instantiate(boss, EnemySpawner.randomSpawnLocation(), Quaternion.identity);
 
         b1.transform.localScale = new Vector2(1.2f, 1.2f); // makes the boss supersized
 
-        if (EnemyController.speed < 4.0f && level < 15)
+        if (EnemyController.enemySpeed < 4.0f && level < 15)
         {
-            text.text = $"Level {level.ToString()}"; // show the user their current level
-            level++;   
+            levelChangeText.text = $"Level {level.ToString()}";
+            level++;
 
-            animator.SetTrigger("isIncrease");
+            animatorForLevelChange.SetTrigger("isIncrease");
 
-            EnemyController.speed *= 1.1f;  
+            EnemyController.enemySpeed *= 1.1f;
         }
         else if (level == 15)
         {
-            text.text = $"Good luck surviving from here...";
-            text.color = Color.red;
-            
-            animator.SetTrigger("isIncrease");
-            
-            enemy.color = Color.red;
-            foreach (var child in bodyParts) // change the colour of the enemies to red
+            levelChangeText.text = $"Good luck surviving from here...";
+            levelChangeText.color = Color.red;
+
+            animatorForLevelChange.SetTrigger("isIncrease");
+
+            enemySprite.color = Color.red;
+            foreach (SpriteRenderer bodyPart in bodyParts)
             {
-                child.color = Color.red;
+                bodyPart.color = Color.red;
             }
-            EnemySpawner.spawnRate /= 1.5f; 
-            spawnboss = !spawnboss;
+            EnemySpawner.spawnRate /= 1.5f;
+            keepSpawnBoss = !keepSpawnBoss;
         }
     }
 }

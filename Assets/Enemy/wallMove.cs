@@ -8,19 +8,25 @@ public class wallMove : MonoBehaviour
     Rigidbody2D rb;
     BoxCollider2D boxCol;
 
-    string pos = "";
+    string positionToSpawn = "";
 
-    void Start()
-    {
+    void Awake() {
         rb = GetComponent<Rigidbody2D>();
         boxCol = GetComponent<BoxCollider2D>();
+    }
 
-        InvokeRepeating("spawnWall", 1, 8.5f);
+    IEnumerator Start()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(8.5f);
+            spawnWall();
+        }
     }
 
     void Update()
     {
-        switch (pos)
+        switch (positionToSpawn)
         {
             case "right":
                 if (transform.position.x < -0.2f)
@@ -49,39 +55,39 @@ public class wallMove : MonoBehaviour
 
         }
     }
-    void spawnWall() // decide which side to spawn the wall
+    void spawnWall()
     {
-        int loc = Random.Range(0, 4); 
+        int sideToSpawn = Random.Range(0, 4); 
         
-        switch (loc)
+        switch (sideToSpawn)
         {
             case 0:
                 transform.position = new Vector2(-12f, -0.25f);
                 rb.velocity = new Vector2(3,0);
-                pos = "left";
+                positionToSpawn = "left";
                 transform.rotation = Quaternion.Euler(0, 0, 0);
                 break;
             case 1:
                 transform.position = new Vector2(12f, 0.25f);
                 rb.velocity = new Vector2(-3,0);
-                pos = "right";
+                positionToSpawn = "right";
                 transform.rotation = Quaternion.Euler(0, 0, 0);
                 break;
             case 2:
                 transform.position = new Vector2(0, 7.45f);
                 rb.velocity = new Vector2(0,-3);
-                pos = "up";
+                positionToSpawn = "up";
                 transform.rotation = Quaternion.Euler(0, 0, 90);
                 break;
             case 3:
                 transform.position = new Vector2(0, -7.45f);
                 rb.velocity = new Vector2(0,3);
-                pos = "down";
+                positionToSpawn = "down";
                 transform.rotation = Quaternion.Euler(0, 0, 90);
                 break;
         }
     }
-    void OnCollisionEnter2D(Collision2D other) // handle collisions with other rigid bodies
+    void OnCollisionEnter2D(Collision2D other)
     {
         if (other.collider.tag == "wall")
         {

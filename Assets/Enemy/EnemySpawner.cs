@@ -5,18 +5,21 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     public static float spawnRate = 0.5f;
-    [SerializeField] GameObject enemy; // holds the enemy object, can be respawned etc.
 
-    int enemyCount = 0;
+
+    [SerializeField] GameObject enemy;
+
+    private int enemyCount = 0;
     
     IEnumerator Start()
     {
-        spawnRate = 0.5f;
+         spawnRate = 0.5f;
+         
          while(true)
          {
             yield return new WaitForSeconds(spawnRate);
-            enemy.SetActive(true); // enables the game object
-            Instantiate (enemy, spawnLocation(), Quaternion.identity);
+            enemy.SetActive(true);
+            Instantiate (enemy, randomSpawnLocation(), Quaternion.identity);
          }
     }
 
@@ -24,17 +27,17 @@ public class EnemySpawner : MonoBehaviour
     {
         if (enemyCount < 24)
         {
-            Instantiate(enemy, spawnLocation(), Quaternion.identity); // spawns the enemy at a random location on the edge of the map
+            Instantiate(enemy, randomSpawnLocation(), Quaternion.identity);
             enemy.transform.localScale = new Vector2(0.3f, 0.3f);
             enemyCount++;
         }
     }
 
-    public static Vector2 spawnLocation() // [-6,5] in the y direction // [-11, 11] in the x direction
+    public static Vector2 randomSpawnLocation()
     {
         float x = 0.0f; 
         float y = 0.0f;
-        // decides whether to spawn enemy on the left, right, up or down
+
         switch(Random.Range(0,4))
         {
             case 0: // left
@@ -54,7 +57,7 @@ public class EnemySpawner : MonoBehaviour
                 y = -6.0f;
                 break;
         }
-        Vector2 location = new Vector2(x, y); // creates the vector for the current enemy object instantiated
+        Vector2 location = new Vector2(x, y);
         return location;
     }
     

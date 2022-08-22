@@ -5,11 +5,11 @@ using UnityEngine;
 public class EnemyCollision : MonoBehaviour
 {
 
-    void OnCollisionEnter2D(Collision2D other)
+    void OnCollisionEnter2D(Collision2D otherObjectCollidedWith)
     {
-        if (other.gameObject.tag == "wall" || other.gameObject.tag == "movingWall") // ignores collisions with walls
+        if (otherObjectCollidedWith.gameObject.tag == "wall" || otherObjectCollidedWith.gameObject.tag == "movingWall")
         {
-            Physics2D.IgnoreCollision(other.collider, gameObject.GetComponent<BoxCollider2D>());
+            Physics2D.IgnoreCollision(otherObjectCollidedWith.collider, gameObject.GetComponent<BoxCollider2D>());
         }
     }
 }
