@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+
 public class MenuController : MonoBehaviour
 {
     [SerializeField] private TMP_Text score; // serialized to allow use of TMP object

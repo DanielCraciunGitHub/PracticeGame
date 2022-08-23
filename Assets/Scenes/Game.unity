@@ -3496,9 +3496,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boss: {fileID: 9181178601492843752}
-  text: {fileID: 1176283280}
-  animator: {fileID: 1176283279}
-  enemy: {fileID: 9181178601492843753}
+  levelChangeText: {fileID: 1176283280}
+  animatorForLevelChange: {fileID: 1176283279}
+  enemySprite: {fileID: 9181178601492843753}
 --- !u!4 &1465621611
 Transform:
   m_ObjectHideFlags: 0

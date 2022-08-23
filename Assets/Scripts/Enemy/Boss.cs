@@ -12,7 +12,7 @@ public class Boss : MonoBehaviour
     private SpriteRenderer[] bodyParts;
     private int level = 1;
     private bool keepSpawnBoss = true;
-
+    
     void Awake()
     {
         bodyParts = enemySprite.GetComponentsInChildren<SpriteRenderer>();
