@@ -5,57 +5,55 @@ using TMPro;
 public class Boss : MonoBehaviour
 {
     [SerializeField] GameObject boss;
-    [SerializeField] TMP_Text levelChangeText;
-    [SerializeField] Animator animatorForLevelChange;
     [SerializeField] SpriteRenderer enemySprite;
-
-    private SpriteRenderer[] bodyParts;
-    private int level = 1;
-    private bool keepSpawnBoss = true;
     
-    void Awake()
-    {
-        bodyParts = enemySprite.GetComponentsInChildren<SpriteRenderer>();
-    }
+    private SpriteRenderer[] enemySpriteBodyParts;
+    private bool keepSpawnBoss = true;
+
     IEnumerator Start()
     {
+        enemySpriteBodyParts = enemySprite.GetComponentsInChildren<SpriteRenderer>();
         while (keepSpawnBoss)
         {
             yield return new WaitForSeconds(5);
-            spawnBoss();
-            animatorForLevelChange.SetTrigger("isIncrease");
+
+            if (LevelChanger.isLvl15())
+            {
+                createSuperEnemies();
+                keepSpawnBoss = false;
+            }
+            else
+            {
+                createBoss();
+            }
         }
     }
-    void spawnBoss()
+
+    void createBoss()
     {
-
-        GameObject b1 = Instantiate(boss, EnemySpawner.randomSpawnLocation(), Quaternion.identity);
-
-        b1.transform.localScale = new Vector2(1.2f, 1.2f); // makes the boss supersized
-
-        if (EnemyController.enemySpeed < 4.0f && level < 15)
+        if (LevelChanger.isLvl15())
         {
-            levelChangeText.text = $"Level {level.ToString()}";
-            level++;
-
-            animatorForLevelChange.SetTrigger("isIncrease");
-
-            EnemyController.enemySpeed *= 1.1f;
+            createSuperEnemies();
         }
-        else if (level == 15)
+        else
         {
-            levelChangeText.text = $"Good luck surviving from here...";
-            levelChangeText.color = Color.red;
-
-            animatorForLevelChange.SetTrigger("isIncrease");
-
-            enemySprite.color = Color.red;
-            foreach (SpriteRenderer bodyPart in bodyParts)
-            {
-                bodyPart.color = Color.red;
-            }
-            EnemySpawner.spawnRate /= 1.5f;
-            keepSpawnBoss = !keepSpawnBoss;
+            GameObject bossClone = Instantiate(boss, Statics.randomSpawnLocation(), Quaternion.identity);
+            superSize(bossClone);
         }
+    }
+
+    void superSize(GameObject boss)
+    {
+        boss.transform.localScale = new Vector2(1.2f, 1.2f);
+    }
+
+    void createSuperEnemies()
+    {
+        enemySprite.color = Color.red;
+        foreach (SpriteRenderer bodyPart in enemySpriteBodyParts)
+        {
+            bodyPart.color = Color.red;
+        }
+        Statics.enemySpawnRate /= 1.5f;
     }
 }
