@@ -20,27 +20,27 @@ public class playerCollision : MonoBehaviour
         healthBar.value = curHealth;
         healthBar.maxValue = maxHealth;        
     }
-    void OnCollisionEnter2D(Collision2D other) // for bullet-wall collisions, and bullet enemy collisions
+    void OnCollisionEnter2D(Collision2D other) 
     {
-        if (other.collider.tag == "enemy") // if the player touches an enemy
+        if (other.collider.CompareTag("enemy")) 
         {
-            if (curHealth == 0) // if the player dies
+            if (curHealth == 0) 
             {
                 score = player.getScore();
-                SceneManager.LoadScene("GameOver"); // load game over scene
+                SceneManager.LoadScene("GameOver"); 
             }
-            else if ((Vector2)other.collider.gameObject.transform.localScale == new Vector2(1.2f, 1.2f)) // if the size of the enemy corresponds to the size of the boss
+            else if ((Vector2)other.collider.gameObject.transform.localScale == new Vector2(1.2f, 1.2f)) 
             {
                 score = player.getScore();
-                SceneManager.LoadScene("GameOver"); // load game over scene
+                SceneManager.LoadScene("GameOver"); 
             }
             else
             {
-                sendDamage(20); // take damage
+                sendDamage(20); 
             }
         }
     }
-    void sendDamage(float damage) // sends damage to the player upon collision with an enemy
+    void sendDamage(float damage) 
     {
         curHealth -= damage;
         healthBar.value = curHealth;

@@ -5,14 +5,21 @@ using UnityEngine;
 
 public class wallMove : MonoBehaviour
 {
-    Rigidbody2D rb;
-    BoxCollider2D boxCol;
-    string positionToSpawn = string.Empty;
-
-    void Awake() 
+    struct wallDetails
     {
-        rb = GetComponent<Rigidbody2D>();
-        boxCol = GetComponent<BoxCollider2D>();
+        public Rigidbody2D rb;
+        public BoxCollider2D boxCol;
+        public Transform wallTransform;
+        public Vector3 wallStartPos;
+    }
+    wallDetails wall = new wallDetails();
+
+    string positionToSpawn = string.Empty;
+    void Awake()
+    {
+        wall.rb = GetComponent<Rigidbody2D>();
+        wall.boxCol = GetComponent<BoxCollider2D>();
+        cacheTransform();
     }
 
     IEnumerator Start()
@@ -32,28 +39,16 @@ public class wallMove : MonoBehaviour
         switch (positionToSpawn)
         {
             case "right":
-                if (transform.position.x < -0.2f)
-                {
-                    rb.velocity = new Vector2(0, 0);
-                }
+                stopWall(position: wall.wallTransform.position.x, stoppingPos: -0.01f); 
                 break;
-            case "left":
-                if (transform.position.x > 0.2f)
-                {
-                    rb.velocity = new Vector2(0, 0);
-                }
+            case "left":          
+                stopWall(position: wall.wallTransform.position.x, stoppingPos: 0.01f); 
                 break;
             case "up":
-                if (transform.position.y < 0)
-                {
-                    rb.velocity = new Vector2(0, 0);
-                }
+                stopWall(position: wall.wallTransform.position.y, stoppingPos: -0.01f);
                 break;
             case "down":
-                if (transform.position.y > 0)
-                {
-                    rb.velocity = new Vector2(0, 0);
-                }
+                stopWall(position: wall.wallTransform.position.y, stoppingPos: 0.01f); 
                 break;
 
         }
@@ -80,20 +75,35 @@ public class wallMove : MonoBehaviour
     }
     private void initWall(string sideToSpawn, Vector2 position, Vector2 velocity, Vector3 rotation)
     {
-        transform.position = position;
-        rb.velocity = velocity;
+        wall.wallTransform.position = position;
+        wall.rb.velocity = velocity;
         positionToSpawn = sideToSpawn;
-        transform.rotation = Quaternion.Euler(rotation);
+        wall.wallTransform.rotation = Quaternion.Euler(rotation);
+    }
+    private void stopWall(float position, float stoppingPos)
+    {
+        if (stoppingPos < 0)
+        {
+            if (position < stoppingPos) wall.rb.velocity = Vector2.zero;
+        }
+        else
+        {
+            if (position > stoppingPos) wall.rb.velocity = Vector2.zero;
+        }
     }
     void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.collider.tag == "wall")
+        if (other.collider.CompareTag("wall"))
         {
-            Physics2D.IgnoreCollision(other.collider, boxCol);
+            Physics2D.IgnoreCollision(other.collider, wall.boxCol);
         }
-        else if (other.collider.tag == "bullet")
+        else if (other.collider.CompareTag("bullet"))
         {
             Destroy(other.gameObject);
         }
+    }
+    void cacheTransform()
+    {
+        wall.wallTransform = transform;
     }
 }

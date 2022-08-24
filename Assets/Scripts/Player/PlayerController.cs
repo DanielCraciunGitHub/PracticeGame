@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         score = 0;
-        gameObject.transform.position = new Vector2(0, 0); // spawn location for the player     
+        transform.position = new Vector2(0, 0); // spawn location for the player     
     }
     void Update()
     {

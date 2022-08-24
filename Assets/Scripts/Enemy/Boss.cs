@@ -5,7 +5,9 @@ public class Boss : MonoBehaviour
 {
     [SerializeField] GameObject boss;
 
+    Transform bossTransform;
     private bool keepSpawnBoss = true;
+
     IEnumerator Start()
     {
         while (keepSpawnBoss)

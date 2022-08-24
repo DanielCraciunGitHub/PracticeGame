@@ -7,18 +7,19 @@ public class EnemySpawner : MonoBehaviour
     public static float enemySpawnRate;
 
     [SerializeField] GameObject enemy;
-
+    
+    Transform enemyTransform;
     private int enemyCount = 0;
     
     IEnumerator Start()
     {
-         enemySpawnRate = 0.5f;
-         
-         while(true)
+        enemySpawnRate = 0.5f;
+        cacheTransform();
+        while (true)
          {
             yield return new WaitForSeconds(enemySpawnRate);
             enemy.SetActive(true);
-            Instantiate (enemy, randomSpawnLocation(), Quaternion.identity);
+            Instantiate(enemy, randomSpawnLocation(), Quaternion.identity);
          }
     }
 
@@ -27,7 +28,7 @@ public class EnemySpawner : MonoBehaviour
         if (enemyCount < 24)
         {
             Instantiate(enemy, randomSpawnLocation(), Quaternion.identity);
-            enemy.transform.localScale = new Vector2(0.3f, 0.3f);
+            enemyTransform.localScale = new Vector2(0.3f, 0.3f);
             enemyCount++;
         }
     }    
@@ -61,5 +62,9 @@ public class EnemySpawner : MonoBehaviour
         }
         Vector2 location = new Vector2(x, y);
         return location;
+    }
+    void cacheTransform()
+    {
+        enemyTransform = enemy.transform;
     }
 }
