@@ -1,13 +1,11 @@
 using System.Collections;
 using UnityEngine;
-using TMPro;
 
 public class Boss : MonoBehaviour
 {
     [SerializeField] GameObject boss;
 
     private bool keepSpawnBoss = true;
-
     IEnumerator Start()
     {
         while (keepSpawnBoss)
@@ -16,6 +14,7 @@ public class Boss : MonoBehaviour
 
             if (LevelController.isLvl15())
             {
+                
                 keepSpawnBoss = false;
             }
             else

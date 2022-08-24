@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class wallMove : MonoBehaviour
 {
-    float timeStamp;
     Rigidbody2D rb;
     BoxCollider2D boxCol;
+    string positionToSpawn = string.Empty;
 
-    string positionToSpawn = "";
-
-    void Awake() {
+    void Awake() 
+    {
         rb = GetComponent<Rigidbody2D>();
         boxCol = GetComponent<BoxCollider2D>();
     }
@@ -23,8 +23,11 @@ public class wallMove : MonoBehaviour
             spawnWall();
         }
     }
-
     void Update()
+    {
+        checkWallLocation();
+    }
+    private void checkWallLocation()
     {
         switch (positionToSpawn)
         {
@@ -38,13 +41,13 @@ public class wallMove : MonoBehaviour
                 if (transform.position.x > 0.2f)
                 {
                     rb.velocity = new Vector2(0, 0);
-                } 
+                }
                 break;
             case "up":
                 if (transform.position.y < 0)
                 {
                     rb.velocity = new Vector2(0, 0);
-                }   
+                }
                 break;
             case "down":
                 if (transform.position.y > 0)
@@ -57,35 +60,30 @@ public class wallMove : MonoBehaviour
     }
     void spawnWall()
     {
-        int sideToSpawn = Random.Range(0, 4); 
-        
+        int sideToSpawn = Random.Range(0, 4);
+
         switch (sideToSpawn)
         {
             case 0:
-                transform.position = new Vector2(-12f, -0.25f);
-                rb.velocity = new Vector2(3,0);
-                positionToSpawn = "left";
-                transform.rotation = Quaternion.Euler(0, 0, 0);
+                initWall("left", position: new Vector2(-12f, -0.25f), velocity: new Vector2(3, 0), rotation: new Vector3(0, 0, 0));
                 break;
             case 1:
-                transform.position = new Vector2(12f, 0.25f);
-                rb.velocity = new Vector2(-3,0);
-                positionToSpawn = "right";
-                transform.rotation = Quaternion.Euler(0, 0, 0);
+                initWall("right", position: new Vector2(12f, 0.25f), velocity: new Vector2(-3, 0), rotation: new Vector3(0, 0, 0));
                 break;
             case 2:
-                transform.position = new Vector2(0, 7.45f);
-                rb.velocity = new Vector2(0,-3);
-                positionToSpawn = "up";
-                transform.rotation = Quaternion.Euler(0, 0, 90);
+                initWall("up", position: new Vector2(0, 7.45f), velocity: new Vector2(0, -3), rotation: new Vector3(0, 0, 90));
                 break;
             case 3:
-                transform.position = new Vector2(0, -7.45f);
-                rb.velocity = new Vector2(0,3);
-                positionToSpawn = "down";
-                transform.rotation = Quaternion.Euler(0, 0, 90);
+                initWall("down", position: new Vector2(0, -7.45f), velocity: new Vector2(0, 3), rotation: new Vector3(0, 0, 90));
                 break;
         }
+    }
+    private void initWall(string sideToSpawn, Vector2 position, Vector2 velocity, Vector3 rotation)
+    {
+        transform.position = position;
+        rb.velocity = velocity;
+        positionToSpawn = sideToSpawn;
+        transform.rotation = Quaternion.Euler(rotation);
     }
     void OnCollisionEnter2D(Collision2D other)
     {

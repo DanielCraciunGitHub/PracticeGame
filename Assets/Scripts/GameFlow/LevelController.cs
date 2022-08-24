@@ -35,7 +35,7 @@ public class LevelController : MonoBehaviour
 
     void increaseLevel()
     {
-        levelChangeText.text = $"Level {currentLevel.ToString()}";
+        levelChangeText.text = $"Level {currentLevel}";
         currentLevel++;
 
         animatorForLevelChange.SetTrigger("isIncrease");
@@ -50,6 +50,6 @@ public class LevelController : MonoBehaviour
     }
     public static bool isLvl15()
     {
-         return currentLevel == 15;
+        return currentLevel == 15;
     }
 }

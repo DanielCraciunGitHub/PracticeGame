@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyCollision : MonoBehaviour
-{
-
-    void OnCollisionEnter2D(Collision2D otherObjectCollidedWith)
+{   
+    public void OnCollisionEnter2D(Collision2D otherObjectCollidedWith)
     {
         if (otherObjectCollidedWith.gameObject.tag == "wall" || otherObjectCollidedWith.gameObject.tag == "movingWall")
         {
@@ -13,3 +12,4 @@ public class EnemyCollision : MonoBehaviour
         }
     }
 }
+
