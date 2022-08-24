@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    public static float enemySpeed = 1.0f;
+    
     [SerializeField] Transform player;
 
     private Vector2 movement;
@@ -21,7 +23,7 @@ public class EnemyController : MonoBehaviour
     }
     void follow(Vector2 direction)
     {
-        rb.MovePosition((Vector2)transform.position + (direction * Statics.enemySpeed * Time.deltaTime));
+        rb.MovePosition((Vector2)transform.position + (direction * enemySpeed * Time.deltaTime));
 
         // handle look direction
         Vector2 lookDirection = (Vector2)player.position - rb.position;

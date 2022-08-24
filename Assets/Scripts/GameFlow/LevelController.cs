@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class LevelChanger : MonoBehaviour
+public class LevelController : MonoBehaviour
 {
+    public static int currentLevel;
+
     [SerializeField] TMP_Text levelChangeText;
     [SerializeField] Animator animatorForLevelChange;
 
@@ -12,8 +14,8 @@ public class LevelChanger : MonoBehaviour
     
     IEnumerator Start()
     {
-        Statics.enemySpeed = 1.0f;
-        Statics.currentLevel = 1;
+        EnemyController.enemySpeed = 1.0f;
+        currentLevel = 1;
 
         while (keepChangeLevel)
         {
@@ -33,22 +35,21 @@ public class LevelChanger : MonoBehaviour
 
     void increaseLevel()
     {
-        levelChangeText.text = $"Level {Statics.currentLevel.ToString()}";
-        Statics.currentLevel++;
+        levelChangeText.text = $"Level {currentLevel.ToString()}";
+        currentLevel++;
 
         animatorForLevelChange.SetTrigger("isIncrease");
 
-        Statics.enemySpeed *= 1.1f;
-    }
-
-    public static bool isLvl15()
-    {
-         return Statics.currentLevel == 15;
+        EnemyController.enemySpeed *= 1.1f;
     }
     void showLvl15Text()
     {
         levelChangeText.text = $"Good luck surviving from here...";
         levelChangeText.color = Color.red;
         animatorForLevelChange.SetTrigger("isIncrease");
+    }
+    public static bool isLvl15()
+    {
+         return currentLevel == 15;
     }
 }
