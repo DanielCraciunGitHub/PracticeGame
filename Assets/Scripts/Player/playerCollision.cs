@@ -10,11 +10,8 @@ public class playerCollision : MonoBehaviour
     float curHealth;
     float maxHealth = 100;
 
-    PlayerController player;
-
     void Start()
     {
-        player = GetComponent<PlayerController>();
         curHealth = maxHealth;
         healthBar.value = curHealth;
         healthBar.maxValue = maxHealth;        
@@ -27,14 +24,15 @@ public class playerCollision : MonoBehaviour
             {
                 SceneManager.LoadScene("GameOver"); 
             }
-            else if ((Vector2)other.collider.gameObject.transform.localScale == new Vector2(1.2f, 1.2f)) 
-            {
-                SceneManager.LoadScene("GameOver"); 
-            }
             else
             {
                 sendDamage(20); 
             }
+        }
+        
+        if (other.collider.CompareTag("boss")) 
+        {
+            SceneManager.LoadScene("GameOver"); 
         }
     }
     void sendDamage(float damage) 
