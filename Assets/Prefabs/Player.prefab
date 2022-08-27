@@ -41,13 +41,13 @@ GameObject:
   m_Component:
   - component: {fileID: 6089436591381226153}
   - component: {fileID: 6089436591381226154}
-  - component: {fileID: 6089436591381226155}
   - component: {fileID: 6089436591381226159}
   - component: {fileID: 6089436591381226158}
   - component: {fileID: 6089436591381226157}
   - component: {fileID: 6089436591381226156}
   - component: {fileID: 6089436591381226147}
   - component: {fileID: -892592498332625341}
+  - component: {fileID: 3202797073287547116}
   m_Layer: 0
   m_Name: Player
   m_TagString: player
@@ -126,21 +126,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6089436591381226155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6089436591381226164}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0660d2789365ea54cac9e6584b6dfffa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 6089436591381226159}
-  cam: {fileID: 476712843107777119, guid: 48fec844df9070146963340cbc14e5d6, type: 3}
-  speed: 5
 --- !u!50 &6089436591381226159
 Rigidbody2D:
   serializedVersion: 4
@@ -227,7 +212,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c096d1ca8a946f41a4aa5c0f3bb864a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBar: {fileID: 5447547884117367935, guid: 40a91748694066449b3ae679706b65ef, type: 3}
 --- !u!82 &6089436591381226147
 AudioSource:
   m_ObjectHideFlags: 0
@@ -338,6 +322,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 6089436591381226159}
   playerSpeed: 5
+--- !u!114 &3202797073287547116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6089436591381226164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bc9b7a47600c7d449ad66f8f860b39b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 476712843107777119, guid: 48fec844df9070146963340cbc14e5d6, type: 3}
 --- !u!1 &6089436591555976685
 GameObject:
   m_ObjectHideFlags: 0

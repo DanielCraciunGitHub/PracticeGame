@@ -3,9 +3,9 @@ using UnityEngine.UI;
 
 public class HealthManager : MonoBehaviour
 {
+    public static float curHealth;
     static Slider healthBar;
     static float maxHealth = 100;
-    public static float curHealth;
 
     void Start()
     {

@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 3
-  electric: {fileID: 8300000, guid: 0d1f223d81d8b274f9f617bccbcb1902, type: 3}
+  zapSound: {fileID: 8300000, guid: 0d1f223d81d8b274f9f617bccbcb1902, type: 3}
 --- !u!120 &-6126299406695648434
 LineRenderer:
   m_ObjectHideFlags: 0

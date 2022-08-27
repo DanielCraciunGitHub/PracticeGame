@@ -18,8 +18,8 @@ public class WeaponController : MonoBehaviour
     
     float timeStamp;
     float fireRate = 10;
-    float lastFired;
-    float orbTimeStamp;
+    float lastTimeLaserWasFired;
+    float orbDamageTime;
 
     void Start()
     {
@@ -30,19 +30,19 @@ public class WeaponController : MonoBehaviour
 
         if (Input.GetButton("Fire1"))
         {
-            shoot(); // shoot a bullet
+            shootLaser(); 
         }  
 
         if (Input.GetButtonDown("Fire2"))
         {
-            if (PlayerPrefs.GetInt("orbCount") > 0) // if the time passes 10 seconds since last shot with orb and have enough orbs
+            if (PlayerPrefs.GetInt("orbCount") > 0) 
             {
-                shoot2();
+                shootOrb();
                 ScoreManager.decrementOrbCount();
             }
         }
 
-        if (orbTimeStamp < Time.time) // manage time since orb is alive
+        if (orbDamageTime < Time.time) 
         {
             var orbs = FindObjectsOfType<orbVortex>();
             foreach (var orb in orbs)
@@ -51,25 +51,24 @@ public class WeaponController : MonoBehaviour
             }
         }
     }                       
-    void shoot()
+    void shootLaser()
     {
-        if (Time.time - lastFired > 1 / fireRate)
+        if (Time.time - lastTimeLaserWasFired > 1 / fireRate)
         {
-            lastFired = Time.time;
-            GameObject bulletInstance = Instantiate(bullet, firePoint.position, firePoint.rotation); // creates an instance of a bullet object
-            bulletSource.PlayOneShot(bulletSound); // plays shot audio when bullet is fired 
+            lastTimeLaserWasFired = Time.time;
+            GameObject bulletInstance = Instantiate(bullet, firePoint.position, firePoint.rotation); 
+            bulletSource.PlayOneShot(bulletSound); 
 
-            Rigidbody2D rb = bulletInstance.GetComponent<Rigidbody2D>(); // get rigidbody of new bullet
-            rb.AddForce(firePoint.right * force, ForceMode2D.Impulse); // apply a force to it
+            Rigidbody2D rb = bulletInstance.GetComponent<Rigidbody2D>(); 
+            rb.AddForce(firePoint.right * force, ForceMode2D.Impulse); 
         }
     }
-    void shoot2() // same as the function above, but a different firePoint is used
+    void shootOrb() 
     {
-        GameObject bulletInstance = Instantiate(bullet2, firePoint2.position, firePoint2.rotation); // creates an instance of a bullet object
-        orbTimeStamp = Time.time + 4.0f; // orb survives for 4 seconds if no collisions
+        GameObject bulletInstance = Instantiate(bullet2, firePoint2.position, firePoint2.rotation); 
+        orbDamageTime = Time.time + 4.0f; 
         
-        Rigidbody2D rb = bulletInstance.GetComponent<Rigidbody2D>(); // get rigidbody of new bullet
-        rb.AddForce(firePoint2.up * (force/4), ForceMode2D.Impulse); // apply a force to it
-
+        Rigidbody2D rb = bulletInstance.GetComponent<Rigidbody2D>(); 
+        rb.AddForce(firePoint2.up * (force / 4), ForceMode2D.Impulse); 
     }
 }   
