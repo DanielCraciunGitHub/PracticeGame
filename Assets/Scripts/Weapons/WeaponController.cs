@@ -12,8 +12,6 @@ public class WeaponController : MonoBehaviour
     [SerializeField] GameObject bullet;
     [SerializeField] GameObject bullet2;
 
-    [SerializeField] TMP_Text orbs;
-
     [SerializeField] AudioClip bulletSound;
 
     AudioSource bulletSource;
@@ -29,7 +27,6 @@ public class WeaponController : MonoBehaviour
     }
     void Update()
     {
-        orbs.text = $"Orbs: x{PlayerPrefs.GetInt("orbCount")}"; // keep updating the orbs of the player
 
         if (Input.GetButton("Fire1"))
         {
@@ -41,15 +38,14 @@ public class WeaponController : MonoBehaviour
             if (PlayerPrefs.GetInt("orbCount") > 0) // if the time passes 10 seconds since last shot with orb and have enough orbs
             {
                 shoot2();
-                int orbs = PlayerPrefs.GetInt("orbCount") - 1;
-                PlayerPrefs.SetInt("orbCount", orbs);
+                ScoreManager.decrementOrbCount();
             }
         }
 
         if (orbTimeStamp < Time.time) // manage time since orb is alive
         {
             var orbs = FindObjectsOfType<orbVortex>();
-            foreach (var orb in orbs) // destroys orb/orbs if time passes
+            foreach (var orb in orbs)
             {
                 Destroy(orb.gameObject);
             }

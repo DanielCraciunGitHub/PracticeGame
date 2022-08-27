@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: fa1a5b014ff837349ab632a9a81c12e9
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - playerToChase: {fileID: 27709689762475931, guid: b5460d314b0b9e54fae3bac868ba2326, type: 3}
+  - chaserRb: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

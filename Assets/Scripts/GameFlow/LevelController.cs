@@ -6,7 +6,7 @@ using TMPro;
 public class LevelController : MonoBehaviour
 {
     public static int currentLevel;
-
+    
     [SerializeField] TMP_Text levelChangeText;
     [SerializeField] Animator animatorForLevelChange;
 
@@ -14,7 +14,7 @@ public class LevelController : MonoBehaviour
     
     IEnumerator Start()
     {
-        EnemyController.enemySpeed = 1.0f;
+        PlayerChaser.chaseSpeed = 1.0f;
         currentLevel = 1;
 
         while (keepChangeLevel)
@@ -40,7 +40,7 @@ public class LevelController : MonoBehaviour
 
         animatorForLevelChange.SetTrigger("isIncrease");
 
-        EnemyController.enemySpeed *= 1.1f;
+        PlayerChaser.chaseSpeed *= 1.1f;
     }
     void showLvl15Text()
     {

@@ -6,31 +6,25 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] Rigidbody2D rb; // edits the rigidbody component of the player object
+    [SerializeField] Rigidbody2D rb;
     [SerializeField] Camera cam;
-    [SerializeField] TMP_Text text;
 
-    Vector2 direction; // store the direction of movement as a vector
+    Vector2 direction; 
     Vector2 mousePos;
 
     [SerializeField] float speed = 5.0f;
     
     void Start()
     {
-        ScoreManager.playerScore = 0;
         transform.position = Vector2.zero;   
     }
     void Update()
     {
-        // score displaying
-        text.text = $"Score: {ScoreManager.playerScore}";
-        //process player movements
-        float moveX = Input.GetAxisRaw("Horizontal"); // recieves horizontal input direction (a,d)
-        float moveY = Input.GetAxisRaw("Vertical"); // recieves vertical input direction (s,w)
+        float moveX = Input.GetAxisRaw("Horizontal"); 
+        float moveY = Input.GetAxisRaw("Vertical");
 
-        direction = new Vector2(moveX, moveY).normalized; // store the direction based on inputs, normalise to keep movement speed consistent for any direction
+        direction = new Vector2(moveX, moveY).normalized;
 
-        // process rotations
         mousePos = cam.ScreenToWorldPoint(Input.mousePosition);   
     }   
     void FixedUpdate()
