@@ -8,16 +8,12 @@ public class orbVortex : MonoBehaviour
     [SerializeField] AudioClip electric;
 
     LineRenderer lr;
-    EnemySpawner e;
-    PlayerController p;
     AudioSource a;
 
     void Start()    
     {
         a = GetComponent<AudioSource>();
         lr = GetComponent<LineRenderer>();
-        p = GameObject.FindGameObjectWithTag("player").GetComponent<PlayerController>(); // allows for score counting
-        e = GameObject.FindGameObjectWithTag("enemyControl").GetComponent<EnemySpawner>(); // includes an object with the EnemySpawner script attached to it
     }
     void enemiesInRange() // takes in the centre, and the radius of the circle
     {
@@ -34,8 +30,7 @@ public class orbVortex : MonoBehaviour
                 a.PlayOneShot(electric);
                 Destroy(collider.gameObject);
 
-                e.decrement(); // decrements the enemy count
-                p.increment(); // increment player score
+                ScoreManager.playerScore++;
                  
             }
         }

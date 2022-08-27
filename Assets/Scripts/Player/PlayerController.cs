@@ -14,17 +14,16 @@ public class PlayerController : MonoBehaviour
     Vector2 mousePos;
 
     [SerializeField] float speed = 5.0f;
-    public static int score;
     
     void Start()
     {
-        score = 0;
+        ScoreManager.playerScore = 0;
         transform.position = new Vector2(0, 0); // spawn location for the player     
     }
     void Update()
     {
         // score displaying
-        text.text = $"Score: {score}";
+        text.text = $"Score: {ScoreManager.playerScore}";
         //process player movements
         float moveX = Input.GetAxisRaw("Horizontal"); // recieves horizontal input direction (a,d)
         float moveY = Input.GetAxisRaw("Vertical"); // recieves vertical input direction (s,w)
@@ -43,13 +42,5 @@ public class PlayerController : MonoBehaviour
         Vector2 lookDirection = mousePos - rb.position;
         float angle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg - 90f;
         rb.rotation = angle;
-    }
-    public void increment()
-    {
-        score++;
-    }
-    public int getScore()
-    {
-        return score;
     }
 }

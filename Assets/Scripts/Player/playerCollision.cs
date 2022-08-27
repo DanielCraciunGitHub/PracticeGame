@@ -11,7 +11,6 @@ public class playerCollision : MonoBehaviour
     float maxHealth = 100;
 
     PlayerController player;
-    public static int score;
 
     void Start()
     {
@@ -26,12 +25,10 @@ public class playerCollision : MonoBehaviour
         {
             if (curHealth == 0) 
             {
-                score = player.getScore();
                 SceneManager.LoadScene("GameOver"); 
             }
             else if ((Vector2)other.collider.gameObject.transform.localScale == new Vector2(1.2f, 1.2f)) 
             {
-                score = player.getScore();
                 SceneManager.LoadScene("GameOver"); 
             }
             else

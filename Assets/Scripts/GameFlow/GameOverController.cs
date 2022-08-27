@@ -12,19 +12,19 @@ public class GameOverController : MonoBehaviour
     void Start()
     {        
         // if the players score is their new highscore
-        if (playerCollision.score > PlayerPrefs.GetInt("highscore")) 
+        if (ScoreManager.playerScore > PlayerPrefs.GetInt("highscore")) 
         {
-            text.text = $"Your final score is: {playerCollision.score} (NEW HIGHSCORE)";
-            PlayerPrefs.SetInt("highscore", playerCollision.score);
+            text.text = $"Your final score is: {ScoreManager.playerScore} (NEW HIGHSCORE)";
+            PlayerPrefs.SetInt("highscore", ScoreManager.playerScore);
 
-            int temp = playerCollision.score + PlayerPrefs.GetInt("credits"); // update cumulative score
+            int temp = ScoreManager.playerScore + PlayerPrefs.GetInt("credits"); // update cumulative score
             PlayerPrefs.SetInt("credits", temp);
         }
         else
         {
-            text.text = $"Your final score is: {playerCollision.score}";
+            text.text = $"Your final score is: {ScoreManager.playerScore}";
 
-            int temp = playerCollision.score + PlayerPrefs.GetInt("credits"); // update cumulative score
+            int temp = ScoreManager.playerScore + PlayerPrefs.GetInt("credits"); // update cumulative score
             PlayerPrefs.SetInt("credits", temp);
             
         }

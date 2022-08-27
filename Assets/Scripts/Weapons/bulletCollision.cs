@@ -4,14 +4,6 @@ using UnityEngine;
 
 public class bulletCollision : MonoBehaviour
 {
-    EnemySpawner e;
-    PlayerController p;
-
-    void Awake()
-    {
-        p = GameObject.FindGameObjectWithTag("player").GetComponent<PlayerController>(); // allows for score counting
-        e = GameObject.FindGameObjectWithTag("enemyControl").GetComponent<EnemySpawner>(); // includes an object with the EnemySpawner script attached to it
-    }
     void OnCollisionEnter2D(Collision2D other) // for bullet-wall collisions, and bullet enemy collisions
     {
         if (other.collider.CompareTag("wall"))
@@ -28,8 +20,7 @@ public class bulletCollision : MonoBehaviour
                 Destroy(gameObject);
             }
 
-            e.decrement(); // decrements the enemy count
-            p.increment(); // increment player score
+            ScoreManager.playerScore++;
         }
     }
 }
