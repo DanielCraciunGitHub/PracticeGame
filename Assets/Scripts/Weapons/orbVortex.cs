@@ -4,14 +4,11 @@ using UnityEngine;
 public class orbVortex : MonoBehaviour
 {
     [SerializeField] float radius;
-    [SerializeField] AudioClip zapSound;
 
     LineRenderer zapLineRenderer;
-    AudioSource audioSource;
 
     void Start()    
     {
-        audioSource = GetComponent<AudioSource>();
         zapLineRenderer = GetComponent<LineRenderer>();
 
         StartCoroutine(radiusChecker());
@@ -25,16 +22,16 @@ public class orbVortex : MonoBehaviour
         }
     }
  
-    void zapEnemiesInRange() // takes in the centre, and the radius of the circle
+    void zapEnemiesInRange()
     {
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, radius);
 
-        foreach (var collider in hitColliders) // check for each object
+        foreach (var collider in hitColliders)
         {
             if (collider.CompareTag("enemy") || collider.CompareTag("boss"))
             {
                 renderZapLine(collider);
-                audioSource.PlayOneShot(zapSound);
+                AudioManager.playOrbSound();
                 Destroy(collider.gameObject);
                 ScoreManager.playerScore++;
             }

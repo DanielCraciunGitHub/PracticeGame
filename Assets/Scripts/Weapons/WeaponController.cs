@@ -11,20 +11,12 @@ public class WeaponController : MonoBehaviour
 
     [SerializeField] GameObject bullet;
     [SerializeField] GameObject bullet2;
-
-    [SerializeField] AudioClip bulletSound;
-
-    AudioSource bulletSource;
     
     float timeStamp;
     float fireRate = 10;
     float lastTimeLaserWasFired;
     float orbDamageTime;
 
-    void Start()
-    {
-        bulletSource = GetComponent<AudioSource>();
-    }
     void Update()
     {
 
@@ -56,9 +48,8 @@ public class WeaponController : MonoBehaviour
         if (Time.time - lastTimeLaserWasFired > 1 / fireRate)
         {
             lastTimeLaserWasFired = Time.time;
-            GameObject bulletInstance = Instantiate(bullet, firePoint.position, firePoint.rotation); 
-            bulletSource.PlayOneShot(bulletSound); 
-
+            GameObject bulletInstance = Instantiate(bullet, firePoint.position, firePoint.rotation);  
+            AudioManager.playLaserSound();
             Rigidbody2D rb = bulletInstance.GetComponent<Rigidbody2D>(); 
             rb.AddForce(firePoint.right * force, ForceMode2D.Impulse); 
         }
