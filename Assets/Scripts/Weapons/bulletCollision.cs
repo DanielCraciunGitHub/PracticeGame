@@ -1,36 +1,37 @@
+using GameFlow;
 using UnityEngine;
 
-public class bulletCollision : MonoBehaviour
+namespace Weapons
 {
-    void OnCollisionEnter2D(Collision2D other)
+    public class BulletCollision : MonoBehaviour
     {
-        if (other.collider.CompareTag("wall"))
+        private void OnCollisionEnter2D(Collision2D other)
         {
-            Destroy(gameObject);
-        }
-
-        if (other.collider.CompareTag("enemy"))
-        {
-            
-            Destroy(other.collider.gameObject);
-            
-            if (!gameObject.CompareTag("orb"))
+            if (other.collider.CompareTag("wall"))
             {
                 Destroy(gameObject);
             }
 
-            ScoreManager.playerScore++;
-        }
-
-        if (other.collider.CompareTag("boss"))
-        {
-            Destroy(other.collider.gameObject);
-
-            if (!gameObject.CompareTag("orb"))
+            if (other.collider.CompareTag("enemy"))
             {
-                Destroy(gameObject);
-            }
             
+                Destroy(other.collider.gameObject);
+            
+                if (!gameObject.CompareTag("orb"))
+                {
+                    Destroy(gameObject);
+                }
+
+                ScoreManager.playerScore++;
+            }
+
+            if (!other.collider.CompareTag("boss")) 
+                return;
+            
+            Destroy(other.collider.gameObject);
+            if (!gameObject.CompareTag("orb")) 
+                Destroy(gameObject);
+
             ScoreManager.playerScore++;
         }
     }

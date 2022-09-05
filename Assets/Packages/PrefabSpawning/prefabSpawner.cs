@@ -1,31 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
 using System;
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 
-public class prefabSpawner : MonoBehaviour
+namespace Packages.PrefabSpawning
 {
-    [Serializable]
-    struct assetAndLocation
+    public class PrefabSpawner : MonoBehaviour
     {
-        public GameObject gameObject;
-        public Vector2 location;
-    }
-    [SerializeField] assetAndLocation[] items;
-
-    void Start()
-    {
-        for (int i = 0; i < items.Length; i++)
+        [Serializable]
+        private struct AssetAndLocation
         {
-            if (PrefabUtility.IsPartOfAnyPrefab(items[i].gameObject))
+            public GameObject gameObject;
+            public Vector2 location;
+        }
+        [SerializeField] private AssetAndLocation[] items;
+
+        private void Start()
+        {
+            for (int i = 0; i < items.Length; i++)
             {
-                try { Instantiate(items[i].gameObject, items[i].location, Quaternion.identity); }
-                catch { print("Fill in the prefab spawner fields!"); }
-            }
-            else
-            {
-                Debug.Log("Only spawn prefabs!");
+                if (PrefabUtility.IsPartOfAnyPrefab(items[i].gameObject))
+                {
+                    try { Instantiate(items[i].gameObject, items[i].location, Quaternion.identity); }
+                    catch { print("Fill in the prefab spawner fields!"); }
+                }
+                else
+                {
+                    Debug.Log("Only spawn prefabs!");
+                }
             }
         }
     }

@@ -1,23 +1,26 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthManager : MonoBehaviour
+namespace GameFlow
 {
-    public static float curHealth;
-    static Slider healthBar;
-    static float maxHealth = 100;
-
-    void Start()
+    public class HealthManager : MonoBehaviour
     {
-        healthBar = FindObjectOfType<Slider>();
+        private const float MaxHealth = 100;
+        private static Slider _healthBar;
+        public static float curHealth;
+        private void Start()
+        {
+            _healthBar = FindObjectOfType<Slider>();
 
-        curHealth = maxHealth;
-        healthBar.value = curHealth;
-        healthBar.maxValue = maxHealth;        
-    }
-    public static void sendDamage(float damage) 
-    {
-        curHealth -= damage;
-        healthBar.value = curHealth;
+            curHealth = MaxHealth;
+            _healthBar.value = curHealth;
+            _healthBar.maxValue = MaxHealth;        
+        }
+
+        public static void SendDamage(float damage) 
+        {
+            curHealth -= damage;
+            _healthBar.value = curHealth;
+        }
     }
 }

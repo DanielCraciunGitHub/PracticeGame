@@ -1,24 +1,27 @@
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour
+namespace GameFlow
 {
-    static AudioSource[] audioSources;
-    static AudioClip bulletSound;
-    static AudioClip orbSound;
+    public class AudioManager : MonoBehaviour
+    {
+        private static AudioSource[] _audioSources;
+        private static AudioClip _bulletSound;
+        private static AudioClip _orbSound;
 
-    void Start() // array ordered based on ordering of audiosources components in inspector
-    {
-        audioSources = GetComponents<AudioSource>();
-        bulletSound = audioSources[0].clip;
-        orbSound = audioSources[1].clip;
+        private void Start() 
+        {
+            _audioSources = GetComponents<AudioSource>();
+            _bulletSound = _audioSources[0].clip;
+            _orbSound = _audioSources[1].clip;
 
-    }
-    public static void playLaserSound()
-    {
-        audioSources[0].PlayOneShot(bulletSound);
-    }
-    public static void playOrbSound()
-    {
-        audioSources[1].PlayOneShot(orbSound);
+        }
+        public static void PlayLaserSound()
+        {
+            _audioSources[0].PlayOneShot(_bulletSound);
+        }
+        public static void PlayOrbSound()
+        {
+            _audioSources[1].PlayOneShot(_orbSound);
+        }
     }
 }

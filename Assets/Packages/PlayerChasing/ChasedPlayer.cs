@@ -1,27 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ChasedPlayer : MonoBehaviour
+namespace Packages.PlayerChasing
 {
-    Vector2 direction;
-    [SerializeField] Rigidbody2D rb;
-    [SerializeField] float playerSpeed;
-    public static Transform playerTransform;
-    
-    void Awake()
+    public class ChasedPlayer : MonoBehaviour
     {
-        playerTransform = transform;
-    }
-    void Update()
-    {
-        float moveX = Input.GetAxisRaw("Horizontal"); 
-        float moveY = Input.GetAxisRaw("Vertical"); 
+        private Vector2 _direction;
+        [SerializeField] private Rigidbody2D rb;
+        [SerializeField] private float playerSpeed;
+        public static Transform playerTransform;
 
-        direction = new Vector2(moveX, moveY).normalized;
-    }
-    void FixedUpdate()
-    {
-        rb.velocity = new Vector2(direction.x * playerSpeed, direction.y * playerSpeed);
+        private void Awake()
+        {
+            playerTransform = transform;
+        }
+
+        private void Update()
+        {
+            float moveX = Input.GetAxisRaw("Horizontal"); 
+            float moveY = Input.GetAxisRaw("Vertical"); 
+
+            _direction = new Vector2(moveX, moveY).normalized;
+        }
+
+        private void FixedUpdate()
+        {
+            rb.velocity = new Vector2(_direction.x * playerSpeed, _direction.y * playerSpeed);
+        }
     }
 }

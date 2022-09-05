@@ -778,8 +778,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 469346316}
-        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
-        m_MethodName: onClickShop
+        m_TargetAssemblyTypeName: GameFlow.MenuController, Assembly-CSharp
+        m_MethodName: OnClickShop
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -912,8 +912,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 469346316}
-        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
-        m_MethodName: onClickPlay
+        m_TargetAssemblyTypeName: GameFlow.MenuController, Assembly-CSharp
+        m_MethodName: OnClickPlay
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -1,24 +1,29 @@
 using UnityEngine;
 
-public class PlayerRotation : MonoBehaviour
+namespace Player
 {
-    [SerializeField] Camera cam;
+    public class PlayerRotation : MonoBehaviour
+    {
+        [SerializeField] private Camera cam;
 
-    Vector2 mousePos;
-    Rigidbody2D rb;
-    
-    void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
-    }
-    void Update()
-    {
-        mousePos = cam.ScreenToWorldPoint(Input.mousePosition);   
-    }   
-    void FixedUpdate()
-    {
-        Vector2 lookDirection = mousePos - rb.position;
-        float angle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg - 90f;
-        rb.rotation = angle;
+        private Vector2 _mousePos;
+        private Rigidbody2D _rb;
+
+        private void Start()
+        {
+            _rb = GetComponent<Rigidbody2D>();
+        }
+
+        private void Update()
+        {
+            _mousePos = cam.ScreenToWorldPoint(Input.mousePosition);   
+        }
+
+        private void FixedUpdate()
+        {
+            Vector2 lookDirection = _mousePos - _rb.position;
+            float angle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg - 90f;
+            _rb.rotation = angle;
+        }
     }
 }

@@ -1,10 +1,14 @@
  using UnityEngine;
- public class VectorLabelsAttribute : PropertyAttribute
+
+ namespace Packages.Spawning.VectorPropertyDrawer
  {
-     public readonly string[] Labels;
- 
-     public VectorLabelsAttribute( params string[] labels )
+     public class VectorLabelsAttribute : PropertyAttribute
      {
-         Labels = labels;
+         public readonly string[] labels;
+ 
+         public VectorLabelsAttribute( params string[] labels )
+         {
+             this.labels = labels;
+         }
      }
  }

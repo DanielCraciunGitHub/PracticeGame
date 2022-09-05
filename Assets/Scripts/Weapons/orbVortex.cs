@@ -1,46 +1,50 @@
 using System.Collections;
+using GameFlow;
 using UnityEngine;
 
-public class orbVortex : MonoBehaviour
+namespace Weapons
 {
-    [SerializeField] float radius;
-
-    LineRenderer zapLineRenderer;
-
-    void Start()    
+    public class OrbVortex : MonoBehaviour
     {
-        zapLineRenderer = GetComponent<LineRenderer>();
+        [SerializeField] private float radius;
 
-        StartCoroutine(radiusChecker());
-    }
-    IEnumerator radiusChecker()
-    {
-        while (true)
+        private LineRenderer _zapLineRenderer;
+
+        private void Start()    
         {
-            zapEnemiesInRange();
-            yield return new WaitForSeconds(0.2f);
+            _zapLineRenderer = GetComponent<LineRenderer>();
+
+            StartCoroutine(RadiusChecker());
         }
-    }
- 
-    void zapEnemiesInRange()
-    {
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, radius);
 
-        foreach (var collider in hitColliders)
+        private IEnumerator RadiusChecker()
         {
-            if (collider.CompareTag("enemy") || collider.CompareTag("boss"))
+            while (true)
             {
-                renderZapLine(collider);
-                AudioManager.playOrbSound();
-                Destroy(collider.gameObject);
+                ZapEnemiesInRange();
+                yield return new WaitForSeconds(0.2f);
+            }
+        }
+
+        private void ZapEnemiesInRange()
+        {
+            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, radius);
+
+            foreach (var collidedWith in hitColliders)
+            {
+                if (!collidedWith.CompareTag("enemy") && !collidedWith.CompareTag("boss")) 
+                    continue;
+                RenderZapLine(collidedWith);
+                AudioManager.PlayOrbSound();
+                Destroy(collidedWith.gameObject);
                 ScoreManager.playerScore++;
             }
         }
-    }
 
-    void renderZapLine(Collider2D collider)
-    {
-        zapLineRenderer.SetPosition(0, transform.position);
-        zapLineRenderer.SetPosition(1, collider.transform.position);
+        private void RenderZapLine(Collider2D collided)
+        {
+            _zapLineRenderer.SetPosition(0, transform.position);
+            _zapLineRenderer.SetPosition(1, collided.transform.position);
+        }
     }
 }

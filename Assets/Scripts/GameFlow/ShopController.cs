@@ -1,53 +1,54 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using TMPro;
 
-public class ShopController : MonoBehaviour
+namespace GameFlow
 {
-    [SerializeField] TMP_Text text;
-    [SerializeField] TMP_Text count;
-
-    int credits;
-    int orbs;
-
-    void Start()
+    public class ShopController : MonoBehaviour
     {
-        credits = PlayerPrefs.GetInt("credits");
-        orbs = PlayerPrefs.GetInt("orbCount");
+        [SerializeField] private TMP_Text text;
+        [SerializeField] private TMP_Text count;
 
-        text.text = credits.ToString();
-        count.text = $"Orb count: x{orbs}\nCost: 120 credits";
+        private int _credits;
+        private int _orbs;
 
-    }
-    public void onClickReturn()
-    {
-        SceneManager.LoadScene("Menu");
-    }
-
-    public void onClickBuy1(Button button) // handle orb buying [price = 120]
-    {
-        var color = button.colors;
-        if (credits >= 120) // if rich enough
+        private void Start()
         {
-            credits -= 120; // change quantitative values
-            orbs++;
+            _credits = PlayerPrefs.GetInt("credits");
+            _orbs = PlayerPrefs.GetInt("orbCount");
 
-            PlayerPrefs.SetInt("credits", credits);
-            PlayerPrefs.SetInt("orbCount", orbs); // store credits/orb values
+            text.text = _credits.ToString();
+            count.text = $"Orb count: x{_orbs}\nCost: 120 credits";
 
-            text.text = credits.ToString(); // display corresponding text
-            count.text = $"Orb count: x{orbs}\nCost: 120 credits";
-
-            color.pressedColor = Color.green; // change button colour depending on player credit
-            button.colors = color;
         }
-        else
+        public void OnClickReturn()
         {
-            color.pressedColor = Color.red;
-            button.colors = color;
+            SceneManager.LoadScene("Menu");
+        }
+
+        public void OnClickBuy1(Button button)
+        {
+            var color = button.colors;
+            if (_credits >= 120)
+            {
+                _credits -= 120;
+                _orbs++;
+
+                PlayerPrefs.SetInt("credits", _credits);
+                PlayerPrefs.SetInt("orbCount", _orbs); 
+
+                text.text = _credits.ToString(); 
+                count.text = $"Orb count: x{_orbs}\nCost: 120 credits";
+
+                color.pressedColor = Color.green;
+                button.colors = color;
+            }
+            else
+            {
+                color.pressedColor = Color.red;
+                button.colors = color;
+            }
         }
     }
 }

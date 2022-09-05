@@ -1,54 +1,60 @@
 using System.Collections;
-using UnityEngine;
+using Packages.PlayerChasing;
 using TMPro;
+using UnityEngine;
 
-public class LevelController : MonoBehaviour
+namespace GameFlow
 {
-    public static int currentLevel;
-    
-    [SerializeField] TMP_Text levelChangeText;
-    [SerializeField] Animator animatorForLevelChange;
-
-    private bool keepChangeLevel = true;
-    
-    IEnumerator Start()
+    public class LevelController : MonoBehaviour
     {
-        PlayerChaser.chaseSpeed = 1.0f;
-        currentLevel = 1;
+        private static int _currentLevel;
+    
+        [SerializeField] private TMP_Text levelChangeText;
+        [SerializeField] private Animator animatorForLevelChange;
 
-        while (keepChangeLevel)
+        private bool _keepChangeLevel = true;
+        private static readonly int IsIncrease = Animator.StringToHash("isIncrease");
+
+        private IEnumerator Start()
         {
-            yield return new WaitForSeconds(5);
+            PlayerChaser.chaseSpeed = 1.0f;
+            _currentLevel = 1;
 
-            if (!isLvl15())
+            while (_keepChangeLevel)
             {
-                increaseLevel();
-            }
-            else
-            {
-                showLvl15Text();
-                keepChangeLevel = false;
+                yield return new WaitForSeconds(5);
+
+                if (!IsLvl15())
+                {
+                    IncreaseLevel();
+                }
+                else
+                {
+                    ShowLvl15Text();
+                    _keepChangeLevel = false;
+                }
             }
         }
-    }
 
-    void increaseLevel()
-    {
-        levelChangeText.text = $"Level {currentLevel}";
-        currentLevel++;
+        private void IncreaseLevel()
+        {
+            levelChangeText.text = $"Level {_currentLevel}";
+            _currentLevel++;
 
-        animatorForLevelChange.SetTrigger("isIncrease");
+            animatorForLevelChange.SetTrigger(IsIncrease);
 
-        PlayerChaser.chaseSpeed *= 1.1f;
-    }
-    void showLvl15Text()
-    {
-        levelChangeText.text = $"Good luck surviving from here...";
-        levelChangeText.color = Color.red;
-        animatorForLevelChange.SetTrigger("isIncrease");
-    }
-    public static bool isLvl15()
-    {
-        return currentLevel == 15;
+            PlayerChaser.chaseSpeed *= 1.1f;
+        }
+
+        private void ShowLvl15Text()
+        {
+            levelChangeText.text = $"Good luck surviving from here...";
+            levelChangeText.color = Color.red;
+            animatorForLevelChange.SetTrigger(IsIncrease);
+        }
+        public static bool IsLvl15()
+        {
+            return _currentLevel == 15;
+        }
     }
 }

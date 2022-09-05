@@ -1,65 +1,68 @@
-using UnityEngine.Audio;
+using GameFlow;
 using UnityEngine;
-using TMPro;
 
-public class WeaponController : MonoBehaviour
+namespace Weapons
 {
-    const float force = 20f;
-
-    [SerializeField] Transform firePoint;
-    [SerializeField] Transform firePoint2;
-
-    [SerializeField] GameObject bullet;
-    [SerializeField] GameObject bullet2;
-    
-    float timeStamp;
-    float fireRate = 10;
-    float lastTimeLaserWasFired;
-    float orbDamageTime;
-
-    void Update()
+    public class WeaponController : MonoBehaviour
     {
+        private const float Force = 20f;
 
-        if (Input.GetButton("Fire1"))
-        {
-            shootLaser(); 
-        }  
+        [SerializeField] private Transform firePoint;
+        [SerializeField] private Transform firePoint2;
 
-        if (Input.GetButtonDown("Fire2"))
+        [SerializeField] private GameObject bullet;
+        [SerializeField] private GameObject bullet2;
+
+        [SerializeField] private float fireRate = 10;
+        
+        private float _timeStamp;
+        private float _lastTimeLaserWasFired;
+        private float _orbDamageTime;
+
+        private void Update()
         {
-            if (PlayerPrefs.GetInt("orbCount") > 0) 
+
+            if (Input.GetButton("Fire1"))
             {
-                shootOrb();
-                ScoreManager.decrementOrbCount();
-            }
-        }
+                ShootLaser(); 
+            }  
 
-        if (orbDamageTime < Time.time) 
-        {
-            var orbs = FindObjectsOfType<orbVortex>();
+            if (Input.GetButtonDown("Fire2"))
+            {
+                if (PlayerPrefs.GetInt("orbCount") > 0) 
+                {
+                    ShootOrb();
+                    ScoreManager.DecrementOrbCount();
+                }
+            }
+
+            if (!(_orbDamageTime < Time.time)) 
+                return;
+            var orbs = FindObjectsOfType<OrbVortex>();
             foreach (var orb in orbs)
             {
                 Destroy(orb.gameObject);
             }
         }
-    }                       
-    void shootLaser()
-    {
-        if (Time.time - lastTimeLaserWasFired > 1 / fireRate)
+
+        private void ShootLaser()
         {
-            lastTimeLaserWasFired = Time.time;
+            if (!(Time.time - _lastTimeLaserWasFired > 1 / fireRate)) 
+                return;
+            _lastTimeLaserWasFired = Time.time;
             GameObject bulletInstance = Instantiate(bullet, firePoint.position, firePoint.rotation);  
-            AudioManager.playLaserSound();
+            AudioManager.PlayLaserSound();
             Rigidbody2D rb = bulletInstance.GetComponent<Rigidbody2D>(); 
-            rb.AddForce(firePoint.right * force, ForceMode2D.Impulse); 
+            rb.AddForce(firePoint.right * Force, ForceMode2D.Impulse);
         }
-    }
-    void shootOrb() 
-    {
-        GameObject bulletInstance = Instantiate(bullet2, firePoint2.position, firePoint2.rotation); 
-        orbDamageTime = Time.time + 4.0f; 
+
+        private void ShootOrb() 
+        {
+            GameObject bulletInstance = Instantiate(bullet2, firePoint2.position, firePoint2.rotation); 
+            _orbDamageTime = Time.time + 4.0f; 
         
-        Rigidbody2D rb = bulletInstance.GetComponent<Rigidbody2D>(); 
-        rb.AddForce(firePoint2.up * (force / 4), ForceMode2D.Impulse); 
+            Rigidbody2D rb = bulletInstance.GetComponent<Rigidbody2D>(); 
+            rb.AddForce(firePoint2.up * (Force / 4), ForceMode2D.Impulse); 
+        }
     }
 }   

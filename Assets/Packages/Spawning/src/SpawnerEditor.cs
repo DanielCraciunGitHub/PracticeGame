@@ -1,59 +1,62 @@
-using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(Spawner))]
-public class SpawnerEditor : Editor
+namespace Packages.Spawning.src
 {
-    #region
-    SerializedProperty spawnMode;
-    SerializedProperty objectToSpawn;
-    SerializedProperty spawnLocations;
-    SerializedProperty spawnRate;
-    SerializedProperty spawnDuration;
-    SerializedProperty sceneBoundsX;
-    SerializedProperty sceneBoundsY;
-    #endregion
-    
-    void OnEnable()
+    [CustomEditor(typeof(Spawner))]
+    public class SpawnerEditor : Editor
     {
-        #region 
-        spawnMode = serializedObject.FindProperty("spawnMode");
-        objectToSpawn = serializedObject.FindProperty("objectToSpawn");
-        spawnLocations = serializedObject.FindProperty("spawnLocations");
-        spawnRate = serializedObject.FindProperty("spawnRate");
-        spawnDuration = serializedObject.FindProperty("spawnDuration");
-        sceneBoundsX = serializedObject.FindProperty("sceneBoundsX");
-        sceneBoundsY = serializedObject.FindProperty("sceneBoundsY");
+        #region
+
+        private SerializedProperty _spawnMode;
+        private SerializedProperty _objectToSpawn;
+        private SerializedProperty _spawnLocations;
+        private SerializedProperty _spawnRate;
+        private SerializedProperty _spawnDuration;
+        private SerializedProperty _sceneBoundsX;
+        private SerializedProperty _sceneBoundsY;
         #endregion
-    }
-    public override void OnInspectorGUI()
-    {
-        serializedObject.Update();
-        EditorGUILayout.PropertyField(spawnMode);
-        if (spawnMode.enumValueIndex == 0) // Classic mode
+
+        private void OnEnable()
         {
-            EditorGUILayout.PropertyField(objectToSpawn);
-            EditorGUILayout.PropertyField(spawnDuration);
-            EditorGUILayout.PropertyField(spawnRate);
-            EditorGUILayout.PropertyField(spawnLocations);
+            #region 
+            _spawnMode = serializedObject.FindProperty("spawnMode");
+            _objectToSpawn = serializedObject.FindProperty("objectToSpawn");
+            _spawnLocations = serializedObject.FindProperty("spawnLocations");
+            _spawnRate = serializedObject.FindProperty("spawnRate");
+            _spawnDuration = serializedObject.FindProperty("spawnDuration");
+            _sceneBoundsX = serializedObject.FindProperty("sceneBoundsX");
+            _sceneBoundsY = serializedObject.FindProperty("sceneBoundsY");
+            #endregion
         }
-        else if (spawnMode.enumValueIndex == 1) // Random mode
+        public override void OnInspectorGUI()
         {
-            EditorGUILayout.PropertyField(objectToSpawn);
-            EditorGUILayout.PropertyField(spawnDuration);
-            EditorGUILayout.PropertyField(spawnRate);
-            EditorGUILayout.PropertyField(sceneBoundsX);
-            EditorGUILayout.PropertyField(sceneBoundsY);
-        }
-        else // Random On Edges mode
-        {
-            EditorGUILayout.PropertyField(objectToSpawn);
-            EditorGUILayout.PropertyField(spawnDuration);
-            EditorGUILayout.PropertyField(spawnRate);
-            EditorGUILayout.PropertyField(sceneBoundsX);
-            EditorGUILayout.PropertyField(sceneBoundsY);
+            serializedObject.Update();
+            EditorGUILayout.PropertyField(_spawnMode);
+            if (_spawnMode.enumValueIndex == 0) // Classic mode
+            {
+                EditorGUILayout.PropertyField(_objectToSpawn);
+                EditorGUILayout.PropertyField(_spawnDuration);
+                EditorGUILayout.PropertyField(_spawnRate);
+                EditorGUILayout.PropertyField(_spawnLocations);
+            }
+            else if (_spawnMode.enumValueIndex == 1) // Random mode
+            {
+                EditorGUILayout.PropertyField(_objectToSpawn);
+                EditorGUILayout.PropertyField(_spawnDuration);
+                EditorGUILayout.PropertyField(_spawnRate);
+                EditorGUILayout.PropertyField(_sceneBoundsX);
+                EditorGUILayout.PropertyField(_sceneBoundsY);
+            }
+            else // Random On Edges mode
+            {
+                EditorGUILayout.PropertyField(_objectToSpawn);
+                EditorGUILayout.PropertyField(_spawnDuration);
+                EditorGUILayout.PropertyField(_spawnRate);
+                EditorGUILayout.PropertyField(_sceneBoundsX);
+                EditorGUILayout.PropertyField(_sceneBoundsY);
             
+            }
+            serializedObject.ApplyModifiedProperties();
         }
-        serializedObject.ApplyModifiedProperties();
     }
 }

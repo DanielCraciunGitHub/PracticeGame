@@ -1,32 +1,36 @@
-using UnityEngine;
 using System.Collections;
+using GameFlow;
+using UnityEngine;
 
-public class EnemySpriteChanger : MonoBehaviour
+namespace Enemy
 {
-    [SerializeField] SpriteRenderer enemySprite;
-    
-    private SpriteRenderer[] enemySpriteBodyParts;
-    
-    private void Awake()
+    public class EnemySpriteChanger : MonoBehaviour
     {
-        enemySpriteBodyParts = enemySprite.GetComponentsInChildren<SpriteRenderer>();
-    }
-
-    private IEnumerator Start()
-    {
-        while (!LevelController.isLvl15())
+        [SerializeField] private SpriteRenderer enemySprite;
+    
+        private SpriteRenderer[] _enemySpriteBodyParts;
+    
+        private void Awake()
         {
-            yield return null;
+            _enemySpriteBodyParts = enemySprite.GetComponentsInChildren<SpriteRenderer>();
         }
-        changeEnemyColor();
-    }
 
-    public void changeEnemyColor()
-    {
-        enemySprite.color = Color.red;
-        foreach (SpriteRenderer bodyPart in enemySpriteBodyParts)
+        private IEnumerator Start()
         {
-            bodyPart.color = Color.red;
+            while (!LevelController.IsLvl15())
+            {
+                yield return null;
+            }
+            ChangeEnemyColor();
+        }
+
+        private void ChangeEnemyColor()
+        {
+            enemySprite.color = Color.red;
+            foreach (SpriteRenderer bodyPart in _enemySpriteBodyParts)
+            {
+                bodyPart.color = Color.red;
+            }
         }
     }
 }

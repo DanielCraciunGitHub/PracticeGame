@@ -1,27 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
+using GameFlow;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class playerCollision : MonoBehaviour
+namespace Player
 {
-    void OnCollisionEnter2D(Collision2D other) 
+    public class PlayerCollision : MonoBehaviour
     {
-        if (other.collider.CompareTag("enemy")) 
+        private void OnCollisionEnter2D(Collision2D other)
         {
-            if (HealthManager.curHealth == 0) 
+            if (other.collider.CompareTag("enemy"))
             {
-                SceneManager.LoadScene("GameOver"); 
+                if (HealthManager.curHealth == 0)
+                    SceneManager.LoadScene("GameOver");
+                else
+                    HealthManager.SendDamage(20);
             }
-            else
-            {
-                HealthManager.sendDamage(20); 
-            }
-        }
-        if (other.collider.CompareTag("boss")) 
-        {
-            SceneManager.LoadScene("GameOver"); 
+            if (other.collider.CompareTag("boss")) 
+                SceneManager.LoadScene("GameOver");
         }
     }
 }
